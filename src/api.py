@@ -5,13 +5,7 @@ import taskstorage as ts
 
 
 # The goal with this is just to test FastAPI and Uvicorn
-
 app = FastAPI()
-tasks = []
-next_id = 1
-
-next_id, tasks = ts.add_task(tasks, next_id, "Buy Food", None, None)
-next_id, tasks = ts.add_task(tasks, next_id, "Get Food", None, None)
 
 
 # Pydantic base model for easy FastAPI
@@ -28,11 +22,27 @@ async def root():
 
 @app.get("/tasks")
 def get_tasks():
-    return ts.get_tasks(tasks)
+    return ts.get_tasks()
+
+
+@app.get("/tasks/active")
+def get_active():
+    return ts.get_active()
+
+
+@app.get("/tasks/deleted")
+def get_deleted():
+    return ts.get_deleted()
+
+
+@app.get("/tasks/completed")
+def get_completed():
+    return ts.get_completed()
 
 
 @app.post("/tasks")
 def add_task(task: CreateTask):
-    global next_id, tasks  # Lmao I forgot that there were local variables
-    next_id, tasks = ts.add_task(tasks, next_id, task.title, task.note, task.deadline)
-    return next_id, tasks
+    task_id = ts.add_task(task.title, task.note, task.deadline)
+    return {"id": task_id, "message": "Task Created: ", "title": task.title}
+
+
