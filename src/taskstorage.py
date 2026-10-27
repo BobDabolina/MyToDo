@@ -39,7 +39,7 @@ def add_task(task, note, deadline):
     return task_id
 
 
-def delete_task(task_id):  # Soft deletion for simplicity
+def delete_task(task_id: int):  # Soft deletion for simplicity
     task = find_task(task_id)
     if task is not None:
         return task_collection.update_one({"id": task_id}, {"$set": {"deleted": True}})
@@ -51,7 +51,8 @@ def restore_task(task_id):
     task = find_task(task_id)
     if task is not None:
         return task_collection.update_one({"id": task_id}, {"$set": {"deleted": False}})
-
+    else:
+        return None
 
 def get_tasks():  # All tasks
     return list(task_collection.find({}, {"_id": 0}))
