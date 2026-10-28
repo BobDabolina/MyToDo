@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stat-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stat-service
+  template:
+    metadata:
+      labels:
+        app: stat-service
+    spec:
+      containers:
+        - name: stat-service
+          image: dabolina/mytodo-stats:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017"

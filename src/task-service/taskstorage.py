@@ -1,5 +1,6 @@
 from pymongo import MongoClient, ReturnDocument
 import datetime as dt
+import os
 
 # BASELINE
 # add()
@@ -10,7 +11,8 @@ import datetime as dt
 
 # TODO: Turn this into external storage, separate task logic and task viewing into separate services
 
-client = MongoClient("mongodb://localhost:27017/")
+mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")  # Good fallback for me when checking outside docker
+client = MongoClient(mongo_uri)
 db = client["mytodo"]
 task_collection = db["tasks"]
 id_counter = db["id_counter"]

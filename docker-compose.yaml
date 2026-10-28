@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: ./src
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
