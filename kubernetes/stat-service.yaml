@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: stat-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: stat-service
   ports:
     - port: 8001
       targetPort: 8000
+      protocol: TCP
