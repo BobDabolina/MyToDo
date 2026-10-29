@@ -56,6 +56,7 @@ def restore_task(task_id):
     else:
         return None
 
+
 def get_tasks():  # All tasks
     return list(task_collection.find({}, {"_id": 0}))
 
